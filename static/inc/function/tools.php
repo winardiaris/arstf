@@ -240,17 +240,29 @@ function get_ip(){
 	return $ip;
 }	
 function current_url(){
-    $s = &$_SERVER;
-    $ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
-    $sp = strtolower($s['SERVER_PROTOCOL']);
-    $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
-    $port = $s['SERVER_PORT'];
-    $port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
-    $host = isset($s['HTTP_X_FORWARDED_HOST']) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
-    $host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
-    $uri = $protocol . '://' . $host . $s['REQUEST_URI'];
-    $segments = explode('?', $uri, 2);
-    $url = $segments[0];
-    return $url;
+$s = &$_SERVER;
+$ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true:false;
+$sp = strtolower($s['SERVER_PROTOCOL']);
+$protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+$port = $s['SERVER_PORT'];
+$port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
+$host = isset($s['HTTP_X_FORWARDED_HOST']) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
+$host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+$uri = $protocol . '://' . $host . $s['REQUEST_URI'];
+$segments = explode('?', $uri, 2);
+$url = $segments[0];
+return $url;
+}
+//	untuk mengembalikan data yang terdapat pada request/get/post berupa array
+function request(){
+	$key = array();
+	$value = array();
+	foreach ($_REQUEST as $key_ => $value_) {
+    array_push($key,$key_);
+    array_push($value,$value_);
+	}
+	$result = array_combine($key,$value);
+	unset($result["op"]);
+	return $result;
 }
 ?>

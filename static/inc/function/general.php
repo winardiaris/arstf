@@ -1,5 +1,5 @@
 <?php
-//db function
+//  untuk memilih tabel dengan keluaran json
 function select_tbl($table,$field_name=null,$where=null,$limit=null,$debug=null){
 	$DB=DB();
 	if(isset($table)){
@@ -51,65 +51,7 @@ function select_tbl($table,$field_name=null,$where=null,$limit=null,$debug=null)
 		return status(0);
 	}
 }
-function insert_to_tbl($table,$field_name,$value_data,$debug=null){
-	$DB=DB();
-	if(isset($table)){
-		if(isset($field_name) and isset($value_data)){
-			$sql = "INSERT INTO `$table`";
-			$sql .=" ($field_name,`c_at`)";
-			$sql .=" VALUES($value_data,'".__NOW__."')";
-			
-			if(isset($where)){
-				$sql .=" WHERE $where ";
-			}
-			
-			if(empty($debug)){
-				$q = mysqli_query($DB,$sql);
-				if($q){
-					return true;
-				}
-			}	
-			else{
-				return $sql.PHP_EOL;
-			}
-			
-		}
-		else{
-			return false;
-		}
-	}
-	else{
-		return false;
-	}
-}
-function update_tbl($table,$set_data,$where,$debug=null){
-	$DB=DB();
-	if(isset($table)){
-		if(isset($set_data)){
-			$sql = "UPDATE `$table` SET $set_data ";
-			$sql .= ",`u_at`='".__NOW__."' ";
-			if(isset($where)){
-				$sql .=" WHERE $where ";
-			}
-			
-			if(empty($debug)){
-				$q = mysqli_query($DB,$sql);
-				if($q){
-					return status("success");
-				}
-			}	
-			else{
-				return $sql.PHP_EOL;
-			}
-		}
-		else{
-			return status("error");
-		}
-	}
-	else{
-		return status("error");
-	}
-}
+//  untuk memilih tabel berdasarkan kueri mysql dengan keluaran json
 function select_tbl_qry($query,$debug=null){
 	$DB=DB();
 	if(isset($query)){
@@ -143,6 +85,68 @@ function select_tbl_qry($query,$debug=null){
 		return status("error");
 	}
 }
+//  untuk memasukan data ke tabel dengan keluaran json
+function insert_to_tbl($table,$field_name,$value_data,$debug=null){
+	$DB=DB();
+	if(isset($table)){
+		if(isset($field_name) and isset($value_data)){
+			$sql = "INSERT INTO `$table`";
+			$sql .=" ($field_name,`c_at`)";
+			$sql .=" VALUES($value_data,'".__NOW__."')";
+			
+			if(isset($where)){
+				$sql .=" WHERE $where ";
+			}
+			
+			if(empty($debug)){
+				$q = mysqli_query($DB,$sql);
+				if($q){
+					return true;
+				}
+			}	
+			else{
+				return $sql.PHP_EOL;
+			}
+			
+		}
+		else{
+			return false;
+		}
+	}
+	else{
+		return false;
+	}
+}
+//  untuk merubah data di tabel dengan keluaran json
+function update_tbl($table,$set_data,$where,$debug=null){
+	$DB=DB();
+	if(isset($table)){
+		if(isset($set_data)){
+			$sql = "UPDATE `$table` SET $set_data ";
+			$sql .= ",`u_at`='".__NOW__."' ";
+			if(isset($where)){
+				$sql .=" WHERE $where ";
+			}
+			
+			if(empty($debug)){
+				$q = mysqli_query($DB,$sql);
+				if($q){
+					return status("success");
+				}
+			}	
+			else{
+				return $sql.PHP_EOL;
+			}
+		}
+		else{
+			return status("error");
+		}
+	}
+	else{
+		return status("error");
+	}
+}
+// 	untuk eksekusi kueri mysql
 function exec_qry($query,$debug=null){
 	$DB=DB();
 	if(isset($query)){
@@ -160,6 +164,7 @@ function exec_qry($query,$debug=null){
 		return false;
 	}
 }
+//	untuk mengahapus data di table dengan keluaran json
 function delete_data_tbl($table,$where,$debug=null){
 	$DB=DB();
 	if(isset($table)){
@@ -178,11 +183,13 @@ function delete_data_tbl($table,$where,$debug=null){
 		return false;
 	}
 }
+//	untuk menghapus tabel
 function delete_tbl($table){
 	$query = "DROP TABLE `$table`";
 	$q = exec_qry($query);
 	return $q;
 }
+// untuk menghitung jumlah data pada tabel
 function count_on_tbl($table,$where){
 	if(isset($table) and isset($where)){
 		$count = array_sum(array_map("count",select_tbl($table,null,$where)));
@@ -191,19 +198,5 @@ function count_on_tbl($table,$where){
 	else{
 		return status("error");
 	}
-}
-function request(){
-	$key = array();
-	$value = array();
-	foreach ($_REQUEST as $key_ => $value_) {
-    //do something
-    
-    array_push($key,$key_);
-    array_push($value,$value_);
-	    //~ echo $key . ' has the value of ' . $value."<br>";
-	}
-	$result = array_combine($key,$value);
-	unset($result["op"]);
-	return $result;
 }
 ?>

@@ -4,6 +4,5 @@
 	$DB_NAME		="cws2";
 	$DB_USER		="root";
 	$DB_PASSWD	="password";
-	$TIME_ZONE	="Asia/Jakarta";
-	
+	$TIME_ZONE	="Asia/Jakarta";	
 ?>

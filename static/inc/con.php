@@ -1,8 +1,4 @@
-<?php
-//=================================== ==========================================
-	
-	
-	
+<?php		
 	define("__BASE_URL__"		,$BASE_URL);
 	define("__DB_SERVER__"	,$DB_SERVER);
 	define("__DB_NAME__"		,$DB_NAME);
@@ -17,7 +13,6 @@
 	//connection db
 	function DB(){
 		$DB = mysqli_connect(__DB_SERVER__,__DB_USER__,__DB_PASSWD__,__DB_NAME__);
-
 	// Check connection
 		if (mysqli_connect_errno()){ 
 			return "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -26,9 +21,6 @@
 			return $DB;
 		}
 	}
-	
-	
-	
 	date_default_timezone_set(__TIMEZONE__);
 	session_start();
 	ob_start();
